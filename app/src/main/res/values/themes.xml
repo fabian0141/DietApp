@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.DietApp" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:colorButtonNormal">@color/purple_500</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+
+    </style>
+    <style name="Theme.DietApp.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">@color/background</item>
+        <item name="android:color">@color/white</item>
+
+    </style>
+</resources>

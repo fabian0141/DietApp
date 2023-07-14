@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <android.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingStart="10dp"
+        android:paddingLeft="10dp"
+        android:text="Recent"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="#A1A1A1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.example.dietapp.ui.dashboard.MealPreview
+            android:id="@+id/recentMeal1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.example.dietapp.ui.dashboard.MealPreview>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_margin="5dp"
+            android:background="#A1A1A1" />
+
+        <com.example.dietapp.ui.dashboard.MealPreview
+            android:id="@+id/recentMeal2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.example.dietapp.ui.dashboard.MealPreview>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_margin="5dp"
+            android:background="#A1A1A1" />
+
+        <com.example.dietapp.ui.dashboard.MealPreview
+            android:id="@+id/recentMeal3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.example.dietapp.ui.dashboard.MealPreview>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingStart="10dp"
+        android:paddingLeft="10dp"
+        android:text="Recommended"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="#A1A1A1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.example.dietapp.ui.dashboard.MealPreview
+            android:id="@+id/recommendedMeal1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.example.dietapp.ui.dashboard.MealPreview>
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_margin="5dp"
+            android:background="#A1A1A1" />
+
+        <com.example.dietapp.ui.dashboard.MealPreview
+            android:id="@+id/recommendedMeal2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.example.dietapp.ui.dashboard.MealPreview>
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_margin="5dp"
+            android:background="#A1A1A1" />
+
+        <com.example.dietapp.ui.dashboard.MealPreview
+            android:id="@+id/recommendedMeal3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.example.dietapp.ui.dashboard.MealPreview>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/showAllMeals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Show all meals" />
+
+</LinearLayout>
