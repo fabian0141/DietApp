@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dietapp.R;
+import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.Ingredient;
 import com.example.dietapp.databinding.FragmentNotificationsBinding;
 import com.example.dietapp.ui.dialog.IDialogReturn;
@@ -21,12 +22,26 @@ import com.example.dietapp.ui.dialog.IngredientDialog;
 import com.example.dietapp.ui.table.CustomTable;
 import com.example.dietapp.ui.table.IngredientTable;
 import com.example.dietapp.ui.table.SimpleNutrientTable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationsFragment extends Fragment implements IDialogReturn {
 
     CustomTable ingredientTable;
     CustomTable nutrientTable;
+    FloatingActionButton fab;
     private FragmentNotificationsBinding binding;
+
+    private Controller con;
+
+
+    List<Integer> foodIDs = new ArrayList();
+    List<Integer> amounts = new ArrayList();
+    public NotificationsFragment() {
+
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +66,30 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
             }
         });
 
+        FloatingActionButton fab = binding.acceptReqularConsume;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                con.setDailyFood(foodIDs.stream().mapToInt(i->i).toArray(), amounts.stream().mapToInt(i->i).toArray());
+                fab.setVisibility(View.GONE);
+            }
+        });
+        fab.setVisibility(View.GONE);
+        loadData();
         return root;
+    }
+
+    private void loadData() {
+        con = new Controller(getContext());
+        Ingredient[] ings = con.getDailyFood();
+
+        for (int i = 0; i < ings.length; i++) {
+            foodIDs.add(ings[i].id);
+            amounts.add(ings[i].amount);
+
+            ingredientTable.addIngredient(ings[i]);
+            nutrientTable.addIngredient(ings[i]);
+        }
     }
 
     @Override
@@ -61,8 +99,10 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
     }
 
     @Override
-    public void addIngredient(Ingredient ingredient, int amount) {
-        Log.i("Ingredients", ingredient.id + " " + amount);
-        ingredientTable.addIngredient(ingredient, amount);
-        nutrientTable.addIngredient(ingredient, amount);
+    public void addIngredient(Ingredient ingredient) {
+        fab.setVisibility(View.VISIBLE);
+        foodIDs.add(ingredient.id);
+        amounts.add(ingredient.amount);
+        ingredientTable.addIngredient(ingredient);
+        nutrientTable.addIngredient(ingredient);
     }}

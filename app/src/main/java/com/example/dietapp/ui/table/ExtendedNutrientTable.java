@@ -32,9 +32,9 @@ public class ExtendedNutrientTable extends CustomTable {
     }
 
     @Override
-    public void addIngredient(Ingredient ing, int amount) {
-        addNutrients(dayNutrients, ing, amount);
-        addNutrients(weekNutrients, ing, amount);
+    public void addIngredient(Ingredient ing) {
+        addNutrients(dayNutrients, ing);
+        addNutrients(weekNutrients, ing);
 
         for (int i = 0; i < nutrientRows.length; i++) {
             nutrientRows[i].updateValues(new float[]{dayNutrients.nutrients[i]}, new int[]{Color.rgb(200,0,0)});

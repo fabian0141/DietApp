@@ -29,16 +29,18 @@ public class MealNutrientTable extends CustomTable {
         row.addNormalField(context, combineUnit(nutriList.nutrients[nutriIndex], attrb), 10, true);
         row.addColorField(context, combineUnit(dayNutrients.nutrients[nutriIndex], attrb), 10, Color.rgb(200,0,0));
         addView(row);
+        nutrientRows[nutriIndex] = row;
     }
 
     @Override
-    public void addIngredient(Ingredient ing, int amount) {
-        addNutrients(nutriList, ing, amount);
-        addNutrients(dayNutrients, ing, amount);
+    public void addIngredient(Ingredient ing) {
+        addNutrients(nutriList, ing);
+        addNutrients(dayNutrients, ing);
 
         for (int i = 0; i < nutrientRows.length; i++) {
-            nutrientRows[i].updateValues(new float[]{nutriList.nutrients[i]}, new int[]{Color.rgb(200,0,0)});
-            nutrientRows[i].updateValues(new float[]{dayNutrients.nutrients[i]}, new int[]{Color.rgb(200,0,0)});
+            float val = nutriList.nutrients[i];
+            float val2 = dayNutrients.nutrients[i];
+            nutrientRows[i].updateValues(new float[]{val, val2}, new int[]{NutriAttribs.getColorVal(val2, i)});
         }
     }
 }

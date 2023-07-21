@@ -80,9 +80,11 @@ public class IngredientDialog extends DialogFragment {
             .setPositiveButton("Apply", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     int selectedRadioButtonId = ingredientList.getCheckedRadioButtonId();
-                    if (selectedRadioButtonId != -1)
-                        caller.addIngredient(ingredients[ingredientList.indexOfChild(inflate.findViewById(selectedRadioButtonId))],
-                                Integer.parseInt(amount.getText().toString()));
+                    if (selectedRadioButtonId != -1) {
+                        Ingredient ing = ingredients[ingredientList.indexOfChild(inflate.findViewById(selectedRadioButtonId))];
+                        ing.amount = Integer.parseInt(amount.getText().toString());
+                                caller.addIngredient(ing);
+                    }
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

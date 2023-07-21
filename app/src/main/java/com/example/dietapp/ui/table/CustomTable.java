@@ -24,7 +24,7 @@ public abstract class CustomTable extends TableLayout {
         initView(context);
     }
 
-    public abstract void addIngredient(Ingredient ing, int amount);
+    public abstract void addIngredient(Ingredient ing);
 
     protected void initView(Context context) {
         setBackgroundColor(Color.rgb(60, 65, 70));
@@ -34,9 +34,9 @@ public abstract class CustomTable extends TableLayout {
         con = new Controller(getContext());
     }
 
-    protected void addNutrients(Ingredient list, Ingredient added, int amount) {
+    protected void addNutrients(Ingredient list, Ingredient added) {
         for (int i = 0; i < list.nutrients.length; i++) {
-            list.nutrients[i] += added.nutrients[i] * amount / 100;
+            list.nutrients[i] += added.nutrients[i] * added.amount / 100;
         }
     }
 
@@ -64,6 +64,15 @@ public abstract class CustomTable extends TableLayout {
 
         for (int i = 1; i < titles.length; i++) {
             row.addTitleField(context, titles[i], 10);
+        }
+        addView(row);    }
+
+    protected void addTitleRow(Context context, String[] titles, int[] weights) {
+        CustomTableRow row = new CustomTableRow(context);
+        row.addTitleField(context, titles[0], weights[0]);
+
+        for (int i = 1; i < titles.length; i++) {
+            row.addTitleField(context, titles[i], weights[i]);
         }
         addView(row);
     }

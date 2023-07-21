@@ -29,13 +29,13 @@ public class SimpleNutrientTable extends CustomTable {
         addView(row);
         nutrientRows[nutriIndex] = row;
     }
-
     @Override
-    public void addIngredient(Ingredient ing, int amount) {
-        addNutrients(nutriList, ing, amount);
+    public void addIngredient(Ingredient ing) {
+        addNutrients(nutriList, ing);
 
         for (int i = 0; i < nutrientRows.length; i++) {
-            nutrientRows[i].updateValues(new float[]{nutriList.nutrients[i]}, new int[]{Color.rgb(200,0,0)});
+            float val = nutriList.nutrients[i];
+            nutrientRows[i].updateValues(new float[]{val}, new int[]{NutriAttribs.getColorVal(val, i)});
         }
     }
 }

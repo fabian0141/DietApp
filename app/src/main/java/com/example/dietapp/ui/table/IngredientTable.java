@@ -14,17 +14,17 @@ public class IngredientTable extends CustomTable {
     @Override
     protected void initView(Context context) {
         super.initView(context);
-        addTitleRow(context, new String[]{"Name", "Amount"});
+        addTitleRow(context, new String[]{"Name", "Amount"}, new int[] {15, 5});
     }
     @Override
     protected void addNutrientRow(Context context, NutriAttribs attrb, int nutriIndex) {
     }
 
     @Override
-    public void addIngredient(Ingredient ing, int amount) {
+    public void addIngredient(Ingredient ing) {
         CustomTableRow row = new CustomTableRow(getContext());
         row.addNormalField(getContext(), ing.name, 15, false);
-        row.addNormalField(getContext(), amount + " g", 10, true);
+        row.addNormalField(getContext(), ing.amount + " g", 5, true);
         addView(row);
     }
 }
