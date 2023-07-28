@@ -39,7 +39,7 @@ public class IngredientDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
 
-        Controller con = new Controller(getContext());
+        Controller con = Controller.getInstance(getContext());
 
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View inflate = inflater.inflate(R.layout.add_ingredient, null);

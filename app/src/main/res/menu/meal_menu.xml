@@ -4,10 +4,10 @@
 
     <item
         android:id="@+id/mealAdd"
-        android:title="    Apply    "
+        android:title="      Add      "
         app:showAsAction="always" />
     <item
         android:id="@+id/mealEdit"
-        android:title="Delete"
-        app:showAsAction="always" />
+        android:title="Edit"
+        app:showAsAction="never" />
 </menu>

@@ -13,39 +13,49 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import com.example.dietapp.R;
+import com.example.dietapp.data.Controller;
+import com.example.dietapp.data.MealData;
 
 public class AllMeals extends AppCompatActivity {
 
+    private Controller con;
+    private LinearLayout mealList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_meals);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        con = Controller.getInstance(getBaseContext());
 
         SearchView search = findViewById(R.id.searchView);
 
-        LinearLayout mealList = findViewById(R.id.createMealList);
+        mealList = findViewById(R.id.createMealList);
+        showMealPreviews();
+    }
+
+    private void showMealPreviews() {
+        final MealData[] meals = con.getMealPreviews("");
 
         final float scale = getResources().getDisplayMetrics().density;
         int seperatorHeight = (int) (1 * scale + 0.5f);
         int seperatorPadding = (int) (5 * scale + 0.5f);
-
-
         int i = 0;
         while (true) {
-            MealPreview nutriRow = new MealPreview(getBaseContext());
+            final int idx = i;
+            MealPreview nutriRow = new MealPreview(getBaseContext(), meals[i].title);
             nutriRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent meal = new Intent(v.getContext(), Meal.class);
                     meal.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    meal.putExtra("mealID", meals[idx].mealID);
                     v.getContext().startActivity(meal);
                 }
             });
             mealList.addView(nutriRow);
 
             i++;
-            if (i > 50)
+            if (i >= meals.length)
                 break;
 
             View seperator = new View(getBaseContext());
@@ -54,8 +64,6 @@ public class AllMeals extends AppCompatActivity {
             seperatorParams.setMargins(seperatorPadding,0,seperatorPadding,0);
             mealList.addView(seperator, seperatorParams);
         }
-
-
     }
 
     @Override

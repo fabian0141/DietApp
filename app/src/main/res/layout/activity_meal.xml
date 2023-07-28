@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/mealTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -24,7 +24,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/mealDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="web"

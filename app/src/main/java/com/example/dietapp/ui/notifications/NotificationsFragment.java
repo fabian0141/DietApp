@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.Ingredient;
+import com.example.dietapp.data.MealData;
 import com.example.dietapp.databinding.FragmentNotificationsBinding;
 import com.example.dietapp.ui.dialog.IDialogReturn;
 import com.example.dietapp.ui.dialog.IngredientDialog;
@@ -37,8 +38,7 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
     private Controller con;
 
 
-    List<Integer> foodIDs = new ArrayList();
-    List<Integer> amounts = new ArrayList();
+    MealData dailyMeal;
     public NotificationsFragment() {
 
     }
@@ -66,11 +66,11 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
             }
         });
 
-        FloatingActionButton fab = binding.acceptReqularConsume;
+        fab = binding.acceptReqularConsume;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                con.setDailyFood(foodIDs.stream().mapToInt(i->i).toArray(), amounts.stream().mapToInt(i->i).toArray());
+                con.applyDailyMeal(dailyMeal);
                 fab.setVisibility(View.GONE);
             }
         });
@@ -80,15 +80,12 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
     }
 
     private void loadData() {
-        con = new Controller(getContext());
-        Ingredient[] ings = con.getDailyFood();
+        con = Controller.getInstance(getContext());
+        dailyMeal = con.getDailyMeal().clone();
 
-        for (int i = 0; i < ings.length; i++) {
-            foodIDs.add(ings[i].id);
-            amounts.add(ings[i].amount);
-
-            ingredientTable.addIngredient(ings[i]);
-            nutrientTable.addIngredient(ings[i]);
+        for (int i = 0; i < dailyMeal.ingredients.size(); i++) {
+            ingredientTable.addIngredient(dailyMeal.ingredients.get(i));
+            nutrientTable.addIngredient(dailyMeal.ingredients.get(i));
         }
     }
 
@@ -101,8 +98,7 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
     @Override
     public void addIngredient(Ingredient ingredient) {
         fab.setVisibility(View.VISIBLE);
-        foodIDs.add(ingredient.id);
-        amounts.add(ingredient.amount);
+        dailyMeal.ingredients.add(ingredient);
         ingredientTable.addIngredient(ingredient);
         nutrientTable.addIngredient(ingredient);
     }}

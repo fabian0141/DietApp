@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 public abstract class CustomTable extends TableLayout {
 
-    private Controller con;
+    protected Controller con;
     private DecimalFormat nutriFormat = new DecimalFormat("#.##");
     protected CustomTableRow[] nutrientRows = new CustomTableRow[20];
 
@@ -31,7 +31,7 @@ public abstract class CustomTable extends TableLayout {
         getData();
     }
     private void getData() {
-        con = new Controller(getContext());
+        con = Controller.getInstance(getContext());
     }
 
     protected void addNutrients(Ingredient list, Ingredient added) {

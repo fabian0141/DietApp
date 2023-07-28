@@ -2,11 +2,11 @@ package com.example.dietapp.ui.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.Ingredient;
+import com.example.dietapp.data.MealData;
 import com.example.dietapp.ui.dialog.IDialogReturn;
 import com.example.dietapp.ui.dialog.IngredientDialog;
 import com.example.dietapp.ui.table.CustomTable;
@@ -28,11 +29,11 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
     CustomTable ingredientTable;
     CustomTable nutrientTable;
 
-    private int mealID = -1;
+    private MealData mealData = null;
+    private EditText title;
+    private EditText description;
 
     private Controller con;
-    List<Integer> foodIDs = new ArrayList();
-    List<Integer> amounts = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,9 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
         nutrientTable = new MealNutrientTable(getBaseContext());
         mealList.addView(nutrientTable, 8);
 
+        title = findViewById(R.id.editMealTitle);
+        description = findViewById(R.id.editMealDesc);
+
         Button addIngredient = findViewById(R.id.addIngredientButton);
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,19 +63,21 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
     }
 
     private void loadData() {
-        Intent intent = getIntent(); // gets the previously created intent
-        mealID = intent.getIntExtra("mealID", -1);
+        Intent intent = getIntent();
+        int mealID = intent.getIntExtra("mealID", -1);
 
-        con = new Controller(getBaseContext());
-        if (mealID != -1) {
-            Ingredient[] ings = con.getMeal(mealID);
+        con = Controller.getInstance(getBaseContext());
+        if (mealID == -1) {
+            mealData = MealData.newMeal();
+            mealData.mealID = -1;
+        } else {
+            mealData = con.getMeal(mealID);
+            title.setText(mealData.title);
+            description.setText(mealData.description);
 
-            for (int i = 0; i < ings.length; i++) {
-                foodIDs.add(ings[i].id);
-                amounts.add(ings[i].amount);
-
-                ingredientTable.addIngredient(ings[i]);
-                nutrientTable.addIngredient(ings[i]);
+            for (int i = 0; i < mealData.ingredients.size(); i++) {
+                ingredientTable.addIngredient(mealData.ingredients.get(i));
+                nutrientTable.addIngredient(mealData.ingredients.get(i));
             }
         }
 
@@ -90,11 +96,14 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
-        } else if (item.getItemId() == R.id.createMealApply) {
-            //con.saveMeal(mealID, foodIDs.stream().mapToInt(i->i).toArray(), amounts.stream().mapToInt(i->i).toArray());
+        } else if (item.getItemId() == R.id.mealAdd) {
+            mealData.title = title.getText().toString();
+            mealData.description = description.getText().toString();
+            con.saveMeal(mealData);
             finish();
             return true;
-        } else if (item.getItemId() == R.id.createMealCancel) {
+        } else if (item.getItemId() == R.id.mealEdit) {
+            con.deleteMeal(mealData.mealID);
             finish();
             return true;
         }
@@ -103,8 +112,6 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
 
     @Override
     public void addIngredient(Ingredient ingredient) {
-        foodIDs.add(ingredient.id);
-        amounts.add(ingredient.amount);
         ingredientTable.addIngredient(ingredient);
         nutrientTable.addIngredient(ingredient);
     }
