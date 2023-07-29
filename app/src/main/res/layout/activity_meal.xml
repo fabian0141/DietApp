@@ -59,7 +59,7 @@
                 android:textColor="@color/gray_400" />
 
             <EditText
-                android:id="@+id/editTextNumber"
+                android:id="@+id/consumedAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -71,7 +71,7 @@
                 android:theme="@style/Theme.Material3.Dark" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/totalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

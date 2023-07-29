@@ -182,7 +182,7 @@ public class SqlData {
     }
     public Ingredient[] getWeekIntake() {
         List<Ingredient> resultList = new ArrayList<>();
-        int curtime = (int)(System.currentTimeMillis() / 86400000);
+        int curtime = getCurrentDay();
         Cursor cursor = db.rawQuery("SELECT * FROM (SELECT * FROM DailyIntake WHERE time > " + (curtime - 8) + " ORDER BY time ASC) di JOIN Food ON di.foodID == Food.id;", null);
         //Log.i("DATABASE", Arrays.toString(cursor.getColumnNames()));
         Ingredient ing = null;
@@ -211,8 +211,14 @@ public class SqlData {
         return resultList.toArray(new Ingredient[resultList.size()]);
     }
 
-    public void addTodayIntake() {
-
+    public void addTodayIntake(List<Ingredient> ings, float portion) {
+        String sql = "INSERT INTO DailyIntake (time, foodID, amount) VALUES ";
+        int curtime = getCurrentDay();
+        for (int i = 0; i < ings.size(); i++) {
+            sql += "(" + curtime + ", " + ings.get(i).id + ", " + ings.get(i).amount * portion + "),";
+        }
+        sql = sql.subSequence(0, sql.length() - 1) + ";";
+        db.execSQL(sql);
     }
 
     private void initTodayIntake() {
@@ -246,5 +252,10 @@ public class SqlData {
 
         cursor.close();
         return resultList;
+    }
+
+    private int getCurrentDay() {
+        return (int)(System.currentTimeMillis() / 86400000);
+
     }
 }

@@ -27,7 +27,8 @@ public class Controller {
         checkForDatabase(context, dbPath);
         set = new Settings(context);
         db = new SqlData(dbPath, this);
-        data = new Persistent(this, db.getDailyMeal(), db.getWeekIntake());
+        data = new Persistent(db.getDailyMeal(), db.getWeekIntake());
+        data.init(this);
     }
 
     public static Controller getInstance(Context context) {
@@ -77,8 +78,9 @@ public class Controller {
         data.applyDailyMeal(dailyMeal);
         db.applyDailyMeal(dailyMeal);
     }
-    public void addTodayIntake(List<Ingredient> ings) {
-        db.addTodayIntake();
+    public void addTodayIntake(List<Ingredient> ings, float portion) {
+        data.addTodayIntake(ings, portion);
+        db.addTodayIntake(ings, portion);
     }
     public MealData getMeal(int mealID) {
         return db.getMeal(mealID);
@@ -114,6 +116,10 @@ public class Controller {
             }
         }
         return db.getMealPreview(mealIDs);
+    }
+
+    public void addRecentMeal(int mealID) {
+        set.addRecentMeal(mealID);
     }
 }
 

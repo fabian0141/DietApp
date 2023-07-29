@@ -2,6 +2,8 @@ package com.example.dietapp.data;
 
 import com.example.dietapp.ui.dashboard.Meal;
 
+import java.util.List;
+
 public class Persistent {
 
     private Ingredient previousIntake;
@@ -10,7 +12,8 @@ public class Persistent {
     private MealData dailyMeal;
     private Ingredient dailyIntake;
 
-    public Persistent(Controller con, MealData dailyMeal, Ingredient[] weekIntake) {
+
+    public Persistent(MealData dailyMeal, Ingredient[] weekIntake) {
         this.dailyMeal = dailyMeal;
         dailyIntake = new Ingredient();
         for (int i = 0; i < dailyMeal.ingredients.size(); i++) {
@@ -26,13 +29,17 @@ public class Persistent {
                 previousIntake.nutrients[j] += weekIntake[i].nutrients[j];
             }
         }
+    }
 
+    public void init(Controller con) {
         if (weekIntake[weekIntake.length - 1] == null) {
-            weekIntake[weekIntake.length - 1] = dailyIntake.clone();
-            con.addTodayIntake(dailyMeal.ingredients);
+            //weekIntake[weekIntake.length - 1] = dailyIntake.clone();
+            weekIntake[weekIntake.length - 1] = new Ingredient();
+            todayIntake = weekIntake[weekIntake.length-1];
+            con.addTodayIntake(dailyMeal.ingredients, 1);
+        } else {
+            todayIntake = weekIntake[weekIntake.length-1];
         }
-
-        todayIntake = weekIntake[weekIntake.length-1];
     }
     public Ingredient getDailyIntake() {
         return dailyIntake;
@@ -65,6 +72,14 @@ public class Persistent {
         for (int i = 0; i < dailyMeal.ingredients.size(); i++) {
             for (int j = 0; j < dailyMeal.ingredients.get(0).nutrients.length; j++) {
                 dailyIntake.nutrients[j] += dailyMeal.ingredients.get(i).nutrients[j];
+            }
+        }
+    }
+
+    public void addTodayIntake(List<Ingredient> ings, float portion) {
+        for (int i = 0; i < ings.size(); i++) {
+            for (int j = 0; j < todayIntake.nutrients.length; j++) {
+                todayIntake.nutrients[j] += ings.get(i).nutrients[j] * portion;
             }
         }
     }

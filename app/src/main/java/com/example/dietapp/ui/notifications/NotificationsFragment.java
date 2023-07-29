@@ -84,8 +84,8 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
         dailyMeal = con.getDailyMeal().clone();
 
         for (int i = 0; i < dailyMeal.ingredients.size(); i++) {
-            ingredientTable.addIngredient(dailyMeal.ingredients.get(i));
-            nutrientTable.addIngredient(dailyMeal.ingredients.get(i));
+            ingredientTable.addIngredient(dailyMeal.ingredients.get(i), 1);
+            nutrientTable.addIngredient(dailyMeal.ingredients.get(i), 1);
         }
     }
 
@@ -99,6 +99,6 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
     public void addIngredient(Ingredient ingredient) {
         fab.setVisibility(View.VISIBLE);
         dailyMeal.ingredients.add(ingredient);
-        ingredientTable.addIngredient(ingredient);
-        nutrientTable.addIngredient(ingredient);
+        ingredientTable.addIngredient(ingredient, 1);
+        nutrientTable.addIngredient(ingredient, 1);
     }}

@@ -19,7 +19,7 @@ public class MealNutrientTable extends CustomTable {
     protected void initView(Context context) {
         super.initView(context);
         nutriList = new Ingredient();
-        dayNutrients = new Ingredient();
+        dayNutrients = con.getTodayIntake();
         createNutrientTable(context, new String[]{"Nutrient", "Meal", "Today"});
     }
     @Override
@@ -33,9 +33,9 @@ public class MealNutrientTable extends CustomTable {
     }
 
     @Override
-    public void addIngredient(Ingredient ing) {
-        addNutrients(nutriList, ing);
-        addNutrients(dayNutrients, ing);
+    public void addIngredient(Ingredient ing, float factor) {
+        addNutrients(nutriList, ing, factor);
+        addNutrients(dayNutrients, ing, factor);
 
         for (int i = 0; i < nutrientRows.length; i++) {
             float val = nutriList.nutrients[i];

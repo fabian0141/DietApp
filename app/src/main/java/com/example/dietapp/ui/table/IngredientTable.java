@@ -21,7 +21,7 @@ public class IngredientTable extends CustomTable {
     }
 
     @Override
-    public void addIngredient(Ingredient ing) {
+    public void addIngredient(Ingredient ing, float factor) {
         CustomTableRow row = new CustomTableRow(getContext());
         row.addNormalField(getContext(), ing.name, 15, false);
         row.addNormalField(getContext(), ing.amount + " g", 5, true);

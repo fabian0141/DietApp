@@ -28,20 +28,21 @@ public class ExtendedNutrientTable extends CustomTable {
     protected void addNutrientRow(Context context, NutriAttribs attrb, int nutriIndex) {
         CustomTableRow row = new CustomTableRow(context);
         row.addNormalField(context, attrb.name, 15, false);
-        row.addColorField(context, combineUnit(dayNutrients.nutrients[nutriIndex], attrb), 10, Color.rgb(200,0,0));
+        float val = dayNutrients.nutrients[nutriIndex];
+        row.addColorField(context, combineUnit(val, attrb), 10, NutriAttribs.getColorVal(val, nutriIndex));
         float weekVal = (previousIntake.nutrients[nutriIndex] * 6 + dayNutrients.nutrients[nutriIndex]) / 7;
-        row.addColorField(context, combineUnit(weekVal, attrb), 10, Color.rgb(200,0,0));
+        row.addColorField(context, combineUnit(weekVal, attrb), 10, NutriAttribs.getColorVal(weekVal, nutriIndex));
         addView(row);
     }
-
     @Override
-    public void addIngredient(Ingredient ing) {
-        addNutrients(dayNutrients, ing);
+    public void addIngredient(Ingredient ing, float factor) {
+        addNutrients(dayNutrients, ing, factor);
 
         for (int i = 0; i < nutrientRows.length; i++) {
-            nutrientRows[i].updateValues(new float[]{dayNutrients.nutrients[i]}, new int[]{Color.rgb(200,0,0)});
+            float val = dayNutrients.nutrients[i];
+            nutrientRows[i].updateValues(new float[]{val}, new int[]{NutriAttribs.getColorVal(val, i)});
             float weekVal = (previousIntake.nutrients[i] * 6 + dayNutrients.nutrients[i]) / 7;
-            nutrientRows[i].updateValues(new float[]{weekVal}, new int[]{Color.rgb(200,0,0)});
+            nutrientRows[i].updateValues(new float[]{weekVal}, new int[]{NutriAttribs.getColorVal(weekVal, i)});
         }
     }
 }

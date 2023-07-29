@@ -25,13 +25,14 @@ public class SimpleNutrientTable extends CustomTable {
     protected void addNutrientRow(Context context, NutriAttribs attrb, int nutriIndex) {
         CustomTableRow row = new CustomTableRow(context);
         row.addNormalField(context, attrb.name, 15, false);
-        row.addColorField(context, combineUnit(nutriList.nutrients[nutriIndex], attrb), 10, Color.rgb(200,0,0));
+        float val = nutriList.nutrients[nutriIndex];
+        row.addColorField(context, combineUnit(val, attrb), 10, NutriAttribs.getColorVal(val, nutriIndex));
         addView(row);
         nutrientRows[nutriIndex] = row;
     }
     @Override
-    public void addIngredient(Ingredient ing) {
-        addNutrients(nutriList, ing);
+    public void addIngredient(Ingredient ing, float factor) {
+        addNutrients(nutriList, ing, factor);
 
         for (int i = 0; i < nutrientRows.length; i++) {
             float val = nutriList.nutrients[i];

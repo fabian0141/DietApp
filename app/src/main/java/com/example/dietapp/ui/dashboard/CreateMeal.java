@@ -21,9 +21,6 @@ import com.example.dietapp.ui.table.CustomTable;
 import com.example.dietapp.ui.table.IngredientTable;
 import com.example.dietapp.ui.table.MealNutrientTable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CreateMeal extends AppCompatActivity implements IDialogReturn {
 
     CustomTable ingredientTable;
@@ -76,8 +73,8 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
             description.setText(mealData.description);
 
             for (int i = 0; i < mealData.ingredients.size(); i++) {
-                ingredientTable.addIngredient(mealData.ingredients.get(i));
-                nutrientTable.addIngredient(mealData.ingredients.get(i));
+                ingredientTable.addIngredient(mealData.ingredients.get(i), 1);
+                nutrientTable.addIngredient(mealData.ingredients.get(i), 1);
             }
         }
 
@@ -96,13 +93,13 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
-        } else if (item.getItemId() == R.id.mealAdd) {
+        } else if (item.getItemId() == R.id.createMealApply) {
             mealData.title = title.getText().toString();
             mealData.description = description.getText().toString();
             con.saveMeal(mealData);
             finish();
             return true;
-        } else if (item.getItemId() == R.id.mealEdit) {
+        } else if (item.getItemId() == R.id.deleteMeal) {
             con.deleteMeal(mealData.mealID);
             finish();
             return true;
@@ -112,7 +109,7 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
 
     @Override
     public void addIngredient(Ingredient ingredient) {
-        ingredientTable.addIngredient(ingredient);
-        nutrientTable.addIngredient(ingredient);
+        ingredientTable.addIngredient(ingredient, 1);
+        nutrientTable.addIngredient(ingredient, 1);
     }
 }
