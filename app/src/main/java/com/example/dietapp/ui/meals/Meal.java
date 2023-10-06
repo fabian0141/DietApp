@@ -1,4 +1,4 @@
-package com.example.dietapp.ui.dashboard;
+package com.example.dietapp.ui.meals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,7 +39,7 @@ public class Meal extends AppCompatActivity {
         consumedAmount = findViewById(R.id.consumedAmount);
 
         LinearLayout mealList = findViewById(R.id.createMealList);
-        ingredientTable = new IngredientTable(getBaseContext());
+        ingredientTable = new IngredientTable(getBaseContext(), null);
         mealList.addView(ingredientTable, 7);
         nutrientTable = new MealNutrientTable(getBaseContext());
         mealList.addView(nutrientTable, 10);

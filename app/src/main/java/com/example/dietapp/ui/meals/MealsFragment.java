@@ -1,4 +1,4 @@
-package com.example.dietapp.ui.dashboard;
+package com.example.dietapp.ui.meals;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,32 +6,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import android.widget.SearchView;
 
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.MealData;
-import com.example.dietapp.data.SettingsNames;
-import com.example.dietapp.databinding.FragmentDashboardBinding;
+import com.example.dietapp.databinding.FragmentMealsBinding;
 
 import java.util.ArrayList;
 
-public class DashboardFragment extends Fragment {
+public class MealsFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentMealsBinding binding;
     private Controller con;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        MealsViewModel mealsViewModel =
+                new ViewModelProvider(this).get(MealsViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentMealsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         con = Controller.getInstance(getContext());
 

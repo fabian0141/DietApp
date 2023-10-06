@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".ui.dashboard.Meal">
+    tools:context=".ui.meals.Meal">
 
     <LinearLayout
         android:id="@+id/createMealList"

@@ -1,8 +1,10 @@
 package com.example.dietapp.data;
 
-import com.example.dietapp.ui.dashboard.Meal;
+import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class MealData implements Cloneable {
 
@@ -37,7 +39,22 @@ public class MealData implements Cloneable {
         clonedMeal.mealID = mealID;
         clonedMeal.title = title;
         clonedMeal.description = description;
-        clonedMeal.ingredients = (ArrayList<Ingredient>) ingredients.clone();
+        clonedMeal.ingredients = new ArrayList<>();
+        for (int i = 0; i < ingredients.size(); i++) {
+            clonedMeal.ingredients.add(ingredients.get(i).clone());
+        }
         return clonedMeal;
+    }
+
+    public void updateIngredient(Ingredient ingredient) {
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (ingredients.get(i).id == ingredient.id) {
+                if (ingredient.amount == 0) {
+                    ingredients.remove(i);
+                    return;
+                }
+                ingredients.get(i).amount = ingredient.amount;
+            }
+        }
     }
 }

@@ -1,59 +1,54 @@
-package com.example.dietapp.ui.notifications;
+package com.example.dietapp.ui.daily;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.Ingredient;
 import com.example.dietapp.data.MealData;
-import com.example.dietapp.databinding.FragmentNotificationsBinding;
+import com.example.dietapp.databinding.FragmentDailyBinding;
 import com.example.dietapp.ui.dialog.IDialogReturn;
 import com.example.dietapp.ui.dialog.IngredientDialog;
+import com.example.dietapp.ui.dialog.IngredientUpdateDialog;
 import com.example.dietapp.ui.table.CustomTable;
 import com.example.dietapp.ui.table.IngredientTable;
 import com.example.dietapp.ui.table.SimpleNutrientTable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DailyFragment extends Fragment implements IDialogReturn {
 
-public class NotificationsFragment extends Fragment implements IDialogReturn {
-
-    CustomTable ingredientTable;
+    IngredientTable ingredientTable;
     CustomTable nutrientTable;
     FloatingActionButton fab;
-    private FragmentNotificationsBinding binding;
+    private FragmentDailyBinding binding;
 
     private Controller con;
 
 
     MealData dailyMeal;
-    public NotificationsFragment() {
+    public DailyFragment() {
 
     }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        DailyViewModel dailyViewModel =
+                new ViewModelProvider(this).get(DailyViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentDailyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         IngredientDialog dialog = new IngredientDialog(this);
+        IngredientUpdateDialog updateDialog = new IngredientUpdateDialog(this, getChildFragmentManager());
 
         LinearLayout mealList = binding.dailyList;
-        ingredientTable = new IngredientTable(getContext());
+        ingredientTable = new IngredientTable(getContext(), updateDialog);
         mealList.addView(ingredientTable, 2);
         nutrientTable = new SimpleNutrientTable(getContext());
         mealList.addView(nutrientTable, 6);
@@ -78,7 +73,6 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
         loadData();
         return root;
     }
-
     private void loadData() {
         con = Controller.getInstance(getContext());
         dailyMeal = con.getDailyMeal().clone();
@@ -88,17 +82,25 @@ public class NotificationsFragment extends Fragment implements IDialogReturn {
             nutrientTable.addIngredient(dailyMeal.ingredients.get(i), 1);
         }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-
     @Override
     public void addIngredient(Ingredient ingredient) {
         fab.setVisibility(View.VISIBLE);
         dailyMeal.ingredients.add(ingredient);
         ingredientTable.addIngredient(ingredient, 1);
         nutrientTable.addIngredient(ingredient, 1);
-    }}
+    }
+    @Override
+    public void updateIngredient(Ingredient ingredient, int deltaAmount) {
+        fab.setVisibility(View.VISIBLE);
+        dailyMeal.updateIngredient(ingredient);
+        ingredientTable.addIngredient(ingredient, 1);
+        ingredient.amount = deltaAmount;
+        nutrientTable.addIngredient(ingredient, 1);
+
+    }
+}

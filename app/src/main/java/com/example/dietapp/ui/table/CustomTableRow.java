@@ -35,33 +35,39 @@ public class CustomTableRow extends TableRow {
         for (int i = 0; i < values.length; i++) {
             valueFields.get(i).setText(nutriFormat.format(values[i]) + " " +  valueFields.get(i).getText().toString().split(" ")[1]);
         }
-        for (int i = 0; i < colorValues.length; i++) {
-            colorFields.get(i).setBackgroundColor(colorValues[i]);
+        if (colorValues != null) {
+            for (int i = 0; i < colorValues.length; i++) {
+                colorFields.get(i).setBackgroundColor(colorValues[i]);
+            }
         }
     }
 
     public void addTitleField(Context context, String text, int weight) {
-        addField(context, text, weight, Color.rgb(80, 90, 100), 5, 5, false, 0, false);
+        addField(context, text, weight, Color.rgb(80, 90, 100), 5, 5, 0,false, 0, false);
     }
 
     public void addSubtitleField(Context context, String text, int weight) {
-        addField(context, text, weight, 0, 5, 5, false, 0, false);
+        addField(context, text, weight, 0, 5, 5, 0,false, 0, false);
     }
 
     public void addNormalField(Context context, String text, int weight, boolean updatable) {
-        addField(context, text, weight, Color.rgb(40, 45, 50), 5, 5, false, 0, updatable);
+        addField(context, text, weight, Color.rgb(40, 45, 50), 5, 5, 0,false, 0, updatable);
+    }
+
+    public void addClickableField(Context context, String text, int weight, boolean updatable) {
+        addField(context, text, weight, Color.rgb(40, 45, 50), 5, 5, 30, false, 0, updatable);
     }
 
     public void addColorField(Context context, String text, int weight, int colorValue) {
-        addField(context, text, weight - 1, Color.rgb(40, 45, 50), 5, 0, true, colorValue, true);
+        addField(context, text, weight - 1, Color.rgb(40, 45, 50), 5, 0, 0,true, colorValue, true);
     }
 
-    private void addField(Context context, String text, int weight, int color, int marginLeft, int marginRight, boolean hasColor, int colorValue, boolean updatable) {
+    private void addField(Context context, String text, int weight, int color, int marginLeft, int marginRight, int padding, boolean hasColor, int colorValue, boolean updatable) {
         TextView tv = new TextView(context);
         tv.setText(text);
         tv.setTextColor(textColor);
         tv.setBackgroundColor(color);
-        tv.setPadding(15,0,15,0);
+        tv.setPadding(15,padding,15,padding);
 
         LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
         lp.weight = weight;

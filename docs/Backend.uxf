@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>370</x>
+      <y>180</y>
+      <w>460</w>
+      <h>560</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Singleton&gt;&gt;
+Controller
+--
++DAILY_MEAL:int
++WEEK_MEAL:int
++TODAY_MEAL:int
+
+-dailyMeal:MealData
+-todaysConsumedMeals:MealData[]
+-lastWeeksMeals:MealData[]
+-recentlyUsedMealBuffer:MealData[]
+-todayCombinedMeal:MealData
+-weekCombinedMeal:MealData
+-tempMeal:MealData
+-recentMeal:MealData
+--
++getMeal(id:int):Meal
++saveMeal(id:int, Meal, onlyTemporary:boolean)
++deleteMeal(id:int)
++getRecentMeals():Meal[3]
++getMeals(startIdx:int, name:String):Meal[20]
++addConsumedMeal(id:int)
++removeConsumedMeal(id:int)
+
+-addDailyMeal()
+-getTodayMeal():MealData
+-getWeekMeal():MealData
+-combineMeals()
+-getTodayWeekMeal()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>940</y>
+      <w>290</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>SqlData
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>940</y>
+      <w>330</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Settings
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>730</y>
+      <w>30</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>820</y>
+      <w>420</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>400.0;120.0;400.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1150</x>
+      <y>530</y>
+      <w>340</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>MealData
+--
+-mealID:int
+-title:String
+-description:String
+-nutrients:float[20]
+--
+-calculateTotalNutrients()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1640</x>
+      <y>530</y>
+      <w>340</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Ingredients
+--
+-id:int
+-name:String
+-amount:String
+-nutrients:float[20]
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1480</x>
+      <y>580</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+r1=ingredients</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+</diagram>

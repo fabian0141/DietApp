@@ -13,13 +13,13 @@
         android:theme="@style/Theme.DietApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.dashboard.Meal"
+            android:name=".ui.meals.Meal"
             android:exported="false" />
         <activity
-            android:name=".ui.dashboard.AllMeals"
+            android:name=".ui.meals.AllMeals"
             android:exported="false" />
         <activity
-            android:name=".ui.dashboard.CreateMeal"
+            android:name=".ui.meals.CreateMeal"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

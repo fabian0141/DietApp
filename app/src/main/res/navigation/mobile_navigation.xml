@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.dietapp.ui.dashboard.DashboardFragment"
+        android:name="com.example.dietapp.ui.meals.MealsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_meals" >
         <action
             android:id="@+id/action_navigation_dashboard_to_allMeals"
             app:destination="@id/allMeals" />
@@ -23,12 +23,12 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.dietapp.ui.notifications.NotificationsFragment"
+        android:name="com.example.dietapp.ui.daily.DailyFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_daily" />
     <activity
         android:id="@+id/allMeals"
-        android:name="com.example.dietapp.ui.dashboard.AllMeals"
+        android:name="com.example.dietapp.ui.meals.AllMeals"
         android:label="activity_all_meals"
         tools:layout="@layout/activity_all_meals" />
 </navigation>

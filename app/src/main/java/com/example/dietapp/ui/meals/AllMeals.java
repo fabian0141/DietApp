@@ -1,4 +1,4 @@
-package com.example.dietapp.ui.dashboard;
+package com.example.dietapp.ui.meals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import android.widget.SearchView;
 import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.MealData;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AllMeals extends AppCompatActivity {
 
@@ -28,13 +29,23 @@ public class AllMeals extends AppCompatActivity {
         con = Controller.getInstance(getBaseContext());
 
         SearchView search = findViewById(R.id.searchView);
-
         mealList = findViewById(R.id.createMealList);
         showMealPreviews();
+
+        FloatingActionButton fab = findViewById(R.id.createMealFB);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent createMeal = new Intent(v.getContext(), CreateMeal.class);
+                startActivity(createMeal);
+            }
+        });
     }
 
     private void showMealPreviews() {
         final MealData[] meals = con.getMealPreviews("");
+        if (meals.length == 0)
+            return;
 
         final float scale = getResources().getDisplayMetrics().density;
         int seperatorHeight = (int) (1 * scale + 0.5f);

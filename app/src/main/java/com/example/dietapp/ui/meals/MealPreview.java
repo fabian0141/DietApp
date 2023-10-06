@@ -1,13 +1,9 @@
-package com.example.dietapp.ui.dashboard;
+package com.example.dietapp.ui.meals;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.example.dietapp.R;

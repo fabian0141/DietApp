@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.dietapp.ui.dashboard.CreateMeal;
-import com.example.dietapp.ui.dashboard.Meal;
+import com.example.dietapp.ui.meals.CreateMeal;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

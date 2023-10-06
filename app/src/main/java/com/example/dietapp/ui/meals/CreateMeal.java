@@ -1,4 +1,4 @@
-package com.example.dietapp.ui.dashboard;
+package com.example.dietapp.ui.meals;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.example.dietapp.data.Ingredient;
 import com.example.dietapp.data.MealData;
 import com.example.dietapp.ui.dialog.IDialogReturn;
 import com.example.dietapp.ui.dialog.IngredientDialog;
+import com.example.dietapp.ui.dialog.IngredientUpdateDialog;
 import com.example.dietapp.ui.table.CustomTable;
 import com.example.dietapp.ui.table.IngredientTable;
 import com.example.dietapp.ui.table.MealNutrientTable;
@@ -39,9 +40,10 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         IngredientDialog dialog = new IngredientDialog(this);
+        IngredientUpdateDialog updateDialog = new IngredientUpdateDialog(this, getSupportFragmentManager());
 
         LinearLayout mealList = findViewById(R.id.createMealList);
-        ingredientTable = new IngredientTable(getBaseContext());
+        ingredientTable = new IngredientTable(getBaseContext(), updateDialog);
         mealList.addView(ingredientTable, 4);
         nutrientTable = new MealNutrientTable(getBaseContext());
         mealList.addView(nutrientTable, 8);
@@ -109,7 +111,16 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
 
     @Override
     public void addIngredient(Ingredient ingredient) {
+        mealData.ingredients.add(ingredient);
         ingredientTable.addIngredient(ingredient, 1);
+        nutrientTable.addIngredient(ingredient, 1);
+    }
+
+    @Override
+    public void updateIngredient(Ingredient ingredient, int deltaAmount) {
+        mealData.updateIngredient(ingredient);
+        ingredientTable.addIngredient(ingredient, 1);
+        ingredient.amount = deltaAmount;
         nutrientTable.addIngredient(ingredient, 1);
     }
 }

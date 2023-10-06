@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.dietapp.ui.dashboard.Meal;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

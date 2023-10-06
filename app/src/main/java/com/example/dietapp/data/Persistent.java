@@ -1,7 +1,5 @@
 package com.example.dietapp.data;
 
-import com.example.dietapp.ui.dashboard.Meal;
-
 import java.util.List;
 
 public class Persistent {

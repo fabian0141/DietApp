@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.meals.MealsFragment">
 
     <android.widget.SearchView
         android:layout_width="match_parent"
@@ -34,12 +34,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.example.dietapp.ui.dashboard.MealPreview
+        <com.example.dietapp.ui.meals.MealPreview
             android:id="@+id/recentMeal1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </com.example.dietapp.ui.dashboard.MealPreview>
+        </com.example.dietapp.ui.meals.MealPreview>
 
         <View
             android:id="@+id/view"
@@ -48,12 +48,12 @@
             android:layout_margin="5dp"
             android:background="#A1A1A1" />
 
-        <com.example.dietapp.ui.dashboard.MealPreview
+        <com.example.dietapp.ui.meals.MealPreview
             android:id="@+id/recentMeal2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </com.example.dietapp.ui.dashboard.MealPreview>
+        </com.example.dietapp.ui.meals.MealPreview>
 
         <View
             android:id="@+id/view2"
@@ -62,12 +62,12 @@
             android:layout_margin="5dp"
             android:background="#A1A1A1" />
 
-        <com.example.dietapp.ui.dashboard.MealPreview
+        <com.example.dietapp.ui.meals.MealPreview
             android:id="@+id/recentMeal3"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </com.example.dietapp.ui.dashboard.MealPreview>
+        </com.example.dietapp.ui.meals.MealPreview>
 
     </LinearLayout>
 
@@ -97,13 +97,13 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <com.example.dietapp.ui.dashboard.MealPreview
+        <com.example.dietapp.ui.meals.MealPreview
             android:id="@+id/recommendedMeal1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
 
-        </com.example.dietapp.ui.dashboard.MealPreview>
+        </com.example.dietapp.ui.meals.MealPreview>
 
         <View
             android:id="@+id/view4"
@@ -113,13 +113,13 @@
             android:background="#A1A1A1"
             android:visibility="gone" />
 
-        <com.example.dietapp.ui.dashboard.MealPreview
+        <com.example.dietapp.ui.meals.MealPreview
             android:id="@+id/recommendedMeal2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
 
-        </com.example.dietapp.ui.dashboard.MealPreview>
+        </com.example.dietapp.ui.meals.MealPreview>
 
         <View
             android:id="@+id/view5"
@@ -129,13 +129,13 @@
             android:background="#A1A1A1"
             android:visibility="gone" />
 
-        <com.example.dietapp.ui.dashboard.MealPreview
+        <com.example.dietapp.ui.meals.MealPreview
             android:id="@+id/recommendedMeal3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
 
-        </com.example.dietapp.ui.dashboard.MealPreview>
+        </com.example.dietapp.ui.meals.MealPreview>
     </LinearLayout>
 
     <Button
