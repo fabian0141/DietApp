@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>370</x>
-      <y>180</y>
+      <x>90</x>
+      <y>100</y>
       <w>460</w>
       <h>560</h>
     </coordinates>
@@ -25,13 +25,14 @@ Controller
 -tempMeal:MealData
 -recentMeal:MealData
 --
-+getMeal(id:int):Meal
-+saveMeal(id:int, Meal, onlyTemporary:boolean)
++getMeal(id:int):MealData
++saveMeal(id:int, MealData, onlyTemporary:boolean)
 +deleteMeal(id:int)
-+getRecentMeals():Meal[3]
-+getMeals(startIdx:int, name:String):Meal[20]
++getRecentMeals():MealData[3]
++getMeals(startIdx:int, name:String):MealData[20]
 +addConsumedMeal(id:int)
 +removeConsumedMeal(id:int)
+searchIngredients(searchText:String, limit:int):Ingredient[]
 
 -addDailyMeal()
 -getTodayMeal():MealData
@@ -43,34 +44,39 @@ Controller
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
-      <y>940</y>
+      <x>170</x>
+      <y>860</y>
       <w>290</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>SqlData
 --
-</panel_attributes>
++getMeal(id:int):MealData
++saveMeal(id:int, MealData)
++deleteMeal(id:int)
++lastDaysMeals(days:int):MealData[][]
+searchIngredients(searchText:String, limit:int):Ingredient[]</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>830</x>
-      <y>940</y>
+      <x>550</x>
+      <y>860</y>
       <w>330</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>Settings
 --
-</panel_attributes>
++getInteger(name:String):int
++setInteger(names:String[], values:int[])</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
-      <y>730</y>
+      <x>310</x>
+      <y>650</y>
       <w>30</w>
       <h>230</h>
     </coordinates>
@@ -80,8 +86,8 @@ Controller
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
-      <y>820</y>
+      <x>310</x>
+      <y>740</y>
       <w>420</w>
       <h>140</h>
     </coordinates>
@@ -91,8 +97,8 @@ Controller
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1150</x>
-      <y>530</y>
+      <x>870</x>
+      <y>450</y>
       <w>340</w>
       <h>170</h>
     </coordinates>
@@ -110,12 +116,12 @@ Controller
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1640</x>
-      <y>530</y>
+      <x>1360</x>
+      <y>450</y>
       <w>340</w>
       <h>170</h>
     </coordinates>
-    <panel_attributes>Ingredients
+    <panel_attributes>Ingredient
 --
 -id:int
 -name:String
@@ -129,8 +135,8 @@ Controller
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1480</x>
-      <y>580</y>
+      <x>1200</x>
+      <y>500</y>
       <w>180</w>
       <h>50</h>
     </coordinates>
@@ -138,5 +144,22 @@ Controller
 m1=0..n
 r1=ingredients</panel_attributes>
     <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>300</y>
+      <w>240</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>SettingsNames
+--
++DB_VERSION:int
++DAILY_MEAL:int
+--
++toString():String
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
