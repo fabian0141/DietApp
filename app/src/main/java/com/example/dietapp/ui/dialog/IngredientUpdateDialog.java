@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.Ingredient;
+import com.example.dietapp.data.MealData;
 
 import java.util.Arrays;
 
@@ -34,7 +35,9 @@ public class IngredientUpdateDialog extends DialogFragment {
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
+
+        Controller con = Controller.getInstance(getContext());
+        MealData meal = con.getMeal(Controller.TEMP_MEAL);
 
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View inflate = inflater.inflate(R.layout.update_ingredient, null);
@@ -47,9 +50,18 @@ public class IngredientUpdateDialog extends DialogFragment {
             .setPositiveButton("Apply", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     int newAmount = Integer.parseInt(amount.getText().toString());
-                    int deltaAmount = newAmount - ingredient.amount;
-                    ingredient.amount = newAmount;
-                    caller.updateIngredient(ingredient, deltaAmount);
+                    if (newAmount == 0) {
+                        for (int i = 0; i < meal.ingredients.size(); i++) {
+                            if (meal.ingredients.get(i) == ingredient) {
+                                meal.ingredients.remove(i);
+                                break;
+                            }
+                        }
+                    } else {
+                        ingredient.amount = newAmount;
+                    }
+                    meal.calculateTotalNutrients();
+                    caller.update();
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -58,16 +70,21 @@ public class IngredientUpdateDialog extends DialogFragment {
             }).setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int deltaAmount = -ingredient.amount;
-                        ingredient.amount = 0;
-                        caller.updateIngredient(ingredient, deltaAmount);
+                        for (int i = 0; i < meal.ingredients.size(); i++) {
+                            if (meal.ingredients.get(i) == ingredient) {
+                                meal.ingredients.remove(i);
+                                break;
+                            }
+                        }
+                        meal.calculateTotalNutrients();
+                        caller.update();
                     }
                 });
         return builder.create();
     }
 
     public void update(Ingredient ingredient) {
-        this.ingredient = ingredient.clone();
+        this.ingredient = ingredient;
         show(man, "dialog");
     }
 }

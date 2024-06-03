@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>160</y>
+      <x>140</x>
+      <y>240</y>
       <w>240</w>
       <h>210</h>
     </coordinates>
@@ -14,18 +14,17 @@
 id INTEGER PRIMARY KEY
 title TEXT
 description TEXT
-lastUse INTEGER
-nutri1
-nutri2
-nutri3
-nutri4</panel_attributes>
+lastUse DATE
+deprecatedMeal BOOLEAN
+
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>480</x>
-      <y>160</y>
+      <x>520</x>
+      <y>240</y>
       <w>240</w>
       <h>210</h>
     </coordinates>
@@ -40,8 +39,8 @@ amount INTEGER</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>490</y>
+      <x>140</x>
+      <y>570</y>
       <w>240</w>
       <h>210</h>
     </coordinates>
@@ -50,14 +49,14 @@ amount INTEGER</panel_attributes>
 id INTEGER PRIMARY KEY
 time INTEGER
 mealID INTEGER
-amount INTEGER</panel_attributes>
+portion INTEGER</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>860</x>
-      <y>160</y>
+      <x>900</x>
+      <y>240</y>
       <w>280</w>
       <h>210</h>
     </coordinates>
@@ -69,8 +68,8 @@ amount INTEGER</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>260</y>
+      <x>370</x>
+      <y>340</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -82,8 +81,8 @@ m2=n</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>260</y>
+      <x>750</x>
+      <y>340</y>
       <w>170</w>
       <h>40</h>
     </coordinates>
@@ -95,8 +94,8 @@ m2=m</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>200</x>
-      <y>360</y>
+      <x>240</x>
+      <y>440</y>
       <w>40</w>
       <h>150</h>
     </coordinates>

@@ -9,51 +9,39 @@ import java.util.Collections;
 public class MealData implements Cloneable {
 
     public int mealID;
+    public int consumedID;
     public String title;
     public String description;
     public ArrayList<Ingredient> ingredients;
+    public float[] nutrients;
 
-    public static MealData newMeal() {
-        MealData meal = new MealData();
-        meal.mealID = -1;
-        return meal;
+    public float portion = 1;
+
+    public MealData(int mealID, String title, String description, ArrayList<Ingredient> ingredients) {
+        this.mealID = mealID;
+        this.title = title;
+        this.description = description;
+        this.ingredients = ingredients;
+        calculateTotalNutrients();
     }
 
-    public static MealData loadMeal(int id, ArrayList<Ingredient> ingredients) {
-        MealData meal = new MealData();
-        meal.mealID = id;
-        meal.ingredients = ingredients;
-        return meal;
+    public MealData() {
+        this.mealID = -1;
+        this.title = "";
+        this.description = "";
+        this.ingredients = new ArrayList<>();
+        nutrients = new float[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     }
 
-    public static MealData previewMeal(int id, String title) {
-        MealData meal = new MealData();
-        meal.mealID = id;
-        meal.title = title;
-        return meal;
+    public static MealData createEmptyMeal() {
+        return new MealData();
     }
 
-    @Override
-    public MealData clone() {
-        MealData clonedMeal = new MealData();
-        clonedMeal.mealID = mealID;
-        clonedMeal.title = title;
-        clonedMeal.description = description;
-        clonedMeal.ingredients = new ArrayList<>();
-        for (int i = 0; i < ingredients.size(); i++) {
-            clonedMeal.ingredients.add(ingredients.get(i).clone());
-        }
-        return clonedMeal;
-    }
-
-    public void updateIngredient(Ingredient ingredient) {
-        for (int i = 0; i < ingredients.size(); i++) {
-            if (ingredients.get(i).id == ingredient.id) {
-                if (ingredient.amount == 0) {
-                    ingredients.remove(i);
-                    return;
-                }
-                ingredients.get(i).amount = ingredient.amount;
+    public void calculateTotalNutrients() {
+        nutrients = new float[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        for (Ingredient ing : ingredients) {
+            for (int i = 0; i < nutrients.length; i++) {
+                nutrients[i] += ing.nutrients[i] * ing.amount / 100;
             }
         }
     }

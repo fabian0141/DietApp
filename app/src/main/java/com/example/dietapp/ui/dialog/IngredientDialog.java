@@ -23,6 +23,8 @@ import androidx.fragment.app.DialogFragment;
 import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.Ingredient;
+import com.example.dietapp.data.MealData;
+import com.example.dietapp.ui.meals.Meal;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -81,9 +83,13 @@ public class IngredientDialog extends DialogFragment {
                 public void onClick(DialogInterface dialog, int id) {
                     int selectedRadioButtonId = ingredientList.getCheckedRadioButtonId();
                     if (selectedRadioButtonId != -1) {
+                        MealData meal = con.getMeal(Controller.TEMP_MEAL);
+
                         Ingredient ing = ingredients[ingredientList.indexOfChild(inflate.findViewById(selectedRadioButtonId))];
                         ing.amount = Integer.parseInt(amount.getText().toString());
-                                caller.addIngredient(ing);
+                        meal.ingredients.add(ing);
+                        meal.calculateTotalNutrients();
+                        caller.update();
                     }
                 }
             })

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.dietapp.data.Controller;
 import com.example.dietapp.databinding.FragmentHomeBinding;
 import com.example.dietapp.ui.table.CustomTable;
 import com.example.dietapp.ui.table.ExtendedNutrientTable;
@@ -18,6 +19,9 @@ import com.example.dietapp.ui.table.ExtendedNutrientTable;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private ExtendedNutrientTable nutriTable;
+
+    private Controller con;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,9 +32,21 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         LinearLayout list = binding.homeList;
-        list.addView(new ExtendedNutrientTable(getContext()));
+        nutriTable = new ExtendedNutrientTable(getContext());
+        list.addView(nutriTable);
 
+        con = Controller.getInstance(getContext());
         return root;
+    }
+
+    private void loadTable() {
+
+    }
+
+    public void onStart() {
+        super.onStart();
+
+        nutriTable.update(con.getMeal(Controller.TODAY_MEALS), con.getMeal(Controller.WEEK_MEALS));
     }
 
     @Override

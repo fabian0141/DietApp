@@ -13,21 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
-import com.example.dietapp.data.Ingredient;
 import com.example.dietapp.data.MealData;
 import com.example.dietapp.ui.dialog.IDialogReturn;
 import com.example.dietapp.ui.dialog.IngredientDialog;
 import com.example.dietapp.ui.dialog.IngredientUpdateDialog;
-import com.example.dietapp.ui.table.CustomTable;
 import com.example.dietapp.ui.table.IngredientTable;
 import com.example.dietapp.ui.table.MealNutrientTable;
 
 public class CreateMeal extends AppCompatActivity implements IDialogReturn {
 
-    CustomTable ingredientTable;
-    CustomTable nutrientTable;
+    IngredientTable ingredientTable;
+    MealNutrientTable nutrientTable;
 
-    private MealData mealData = null;
+    private MealData mealData;
     private EditText title;
     private EditText description;
 
@@ -42,10 +40,10 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
         IngredientDialog dialog = new IngredientDialog(this);
         IngredientUpdateDialog updateDialog = new IngredientUpdateDialog(this, getSupportFragmentManager());
 
-        LinearLayout mealList = findViewById(R.id.createMealList);
+        LinearLayout mealList = findViewById(R.id.mealList);
         ingredientTable = new IngredientTable(getBaseContext(), updateDialog);
         mealList.addView(ingredientTable, 4);
-        nutrientTable = new MealNutrientTable(getBaseContext());
+        nutrientTable = new MealNutrientTable(getBaseContext(), false);
         mealList.addView(nutrientTable, 8);
 
         title = findViewById(R.id.editMealTitle);
@@ -67,19 +65,17 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
 
         con = Controller.getInstance(getBaseContext());
         if (mealID == -1) {
-            mealData = MealData.newMeal();
+            mealData = MealData.createEmptyMeal();
             mealData.mealID = -1;
         } else {
             mealData = con.getMeal(mealID);
             title.setText(mealData.title);
             description.setText(mealData.description);
-
-            for (int i = 0; i < mealData.ingredients.size(); i++) {
-                ingredientTable.addIngredient(mealData.ingredients.get(i), 1);
-                nutrientTable.addIngredient(mealData.ingredients.get(i), 1);
-            }
         }
+        con.saveMeal(mealData, true);
 
+        ingredientTable.update(mealData);
+        nutrientTable.update(mealData, con.getMeal(Controller.TODAY_MEALS), 1);
     }
 
     @Override
@@ -93,16 +89,21 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            setResult(RESULT_CANCELED);
             finish();
             return true;
         } else if (item.getItemId() == R.id.createMealApply) {
             mealData.title = title.getText().toString();
             mealData.description = description.getText().toString();
-            con.saveMeal(mealData);
+            int newMealID = con.saveMeal(mealData, false);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("newMealID", newMealID);
+            setResult(RESULT_OK, resultIntent);
             finish();
             return true;
         } else if (item.getItemId() == R.id.deleteMeal) {
             con.deleteMeal(mealData.mealID);
+            setResult(-2);
             finish();
             return true;
         }
@@ -110,17 +111,9 @@ public class CreateMeal extends AppCompatActivity implements IDialogReturn {
     }
 
     @Override
-    public void addIngredient(Ingredient ingredient) {
-        mealData.ingredients.add(ingredient);
-        ingredientTable.addIngredient(ingredient, 1);
-        nutrientTable.addIngredient(ingredient, 1);
-    }
-
-    @Override
-    public void updateIngredient(Ingredient ingredient, int deltaAmount) {
-        mealData.updateIngredient(ingredient);
-        ingredientTable.addIngredient(ingredient, 1);
-        ingredient.amount = deltaAmount;
-        nutrientTable.addIngredient(ingredient, 1);
+    public void update() {
+        MealData tempMeal = con.getMeal(Controller.TEMP_MEAL);
+        ingredientTable.update(tempMeal);
+        nutrientTable.update(tempMeal, con.getMeal(Controller.TODAY_MEALS), 1);
     }
 }

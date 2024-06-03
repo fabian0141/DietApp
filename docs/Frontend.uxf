@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>1180</x>
-      <y>690</y>
+      <y>730</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
@@ -18,7 +18,7 @@
     <id>Relation</id>
     <coordinates>
       <x>1270</x>
-      <y>580</y>
+      <y>620</y>
       <w>30</w>
       <h>130</h>
     </coordinates>
@@ -29,7 +29,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>410</y>
+      <y>450</y>
       <w>330</w>
       <h>180</h>
     </coordinates>
@@ -41,32 +41,45 @@
     <id>Relation</id>
     <coordinates>
       <x>160</x>
-      <y>190</y>
+      <y>270</y>
       <w>580</w>
-      <h>240</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>560.0;10.0;560.0;180.0;10.0;180.0;10.0;220.0</additional_attributes>
+    <additional_attributes>560.0;10.0;560.0;140.0;10.0;140.0;10.0;180.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>520</x>
-      <y>70</y>
-      <w>380</w>
-      <h>130</h>
+      <x>460</x>
+      <y>0</y>
+      <w>550</w>
+      <h>280</h>
     </coordinates>
     <panel_attributes>/CustomTable/
 --
-/+update(MealData[])/
-</panel_attributes>
+#con:Controller
+
+--
++CustomTable(context:Context)
++update()
+/#addNutrientRow(context:Context, attrb:NutriAttribs, nutriIndex:int)/
+
+#createNutrientTable(context:Context, titleRow:String[])
+#addTitleRow(context:Context, titles:String[])
+#addTitleRow(context:Context, titles:String[], weights:int[])
+#addSubtitleRow(context:Context, titles:String)
+#combineUnit(nutrient:float, attrb:NutriAttribs):String
+
+-getData()
+-addNutrientRows(context:Context, attribs:NutriAttribs[], nutriIndex:int):int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>370</x>
-      <y>410</y>
+      <y>450</y>
       <w>330</w>
       <h>180</h>
     </coordinates>
@@ -78,7 +91,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>740</x>
-      <y>410</y>
+      <y>450</y>
       <w>330</w>
       <h>180</h>
     </coordinates>
@@ -90,19 +103,24 @@
     <id>UMLClass</id>
     <coordinates>
       <x>1110</x>
-      <y>410</y>
+      <y>450</y>
       <w>330</w>
       <h>180</h>
     </coordinates>
     <panel_attributes>ExtendedNutrientTable
---</panel_attributes>
+--
+-
+-
+--
+ExtendedNutrientTable(Context context)
++update()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>530</x>
-      <y>360</y>
+      <y>400</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -113,7 +131,7 @@
     <id>Relation</id>
     <coordinates>
       <x>900</x>
-      <y>360</y>
+      <y>400</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -124,7 +142,7 @@
     <id>Relation</id>
     <coordinates>
       <x>710</x>
-      <y>360</y>
+      <y>400</y>
       <w>590</w>
       <h>70</h>
     </coordinates>
@@ -135,16 +153,24 @@
     <id>UMLClass</id>
     <coordinates>
       <x>680</x>
-      <y>930</y>
+      <y>970</y>
       <w>460</w>
-      <h>290</h>
+      <h>490</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Singleton&gt;&gt;
 Controller
 --
-+DAILY_MEAL:int
-+WEEK_MEAL:int
-+TODAY_MEAL:int
++TODAY_MEALS:int
++WEEK_MEALS:int
++TEMP_MEAL:int
+
+-todaysConsumedMeals:MealData[]
+-lastWeeksMeals:MealData[6]
+-recentlyUsedMealBuffer:Map&lt;MealData&gt;
+-todayCombinedMeal:MealData
+-weekCombinedMeal:MealData
+-tempMeal:MealData
+-recentMeal:MealData
 --
 +getMeal(id:int):MealData
 +saveMeal(id:int, MealData, onlyTemporary:boolean)
@@ -152,18 +178,14 @@ Controller
 +getRecentMeals():MealData[3]
 +getMeals(startIdx:int, name:String):MealData[20]
 +addConsumedMeal(id:int)
-searchIngredients(searchText:String, limit:int):Ingredient[]
-
--removeConsumedMeal(id:int)
--addDailyMeal()
-</panel_attributes>
++removeConsumedMeal(id:int)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>900</x>
-      <y>850</y>
+      <y>890</y>
       <w>30</w>
       <h>100</h>
     </coordinates>
@@ -173,21 +195,8 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>690</x>
-      <y>690</y>
-      <w>210</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>Daily 
---
-+update()</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>1490</x>
-      <y>690</y>
+      <y>730</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
@@ -200,7 +209,7 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
     <id>Relation</id>
     <coordinates>
       <x>900</x>
-      <y>770</y>
+      <y>810</y>
       <w>720</w>
       <h>110</h>
     </coordinates>
@@ -211,7 +220,7 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
     <id>Relation</id>
     <coordinates>
       <x>780</x>
-      <y>580</y>
+      <y>620</y>
       <w>190</w>
       <h>130</h>
     </coordinates>
@@ -222,7 +231,7 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
     <id>Relation</id>
     <coordinates>
       <x>610</x>
-      <y>580</y>
+      <y>620</y>
       <w>200</w>
       <h>80</h>
     </coordinates>
@@ -233,7 +242,7 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
     <id>Relation</id>
     <coordinates>
       <x>790</x>
-      <y>770</y>
+      <y>810</y>
       <w>140</w>
       <h>110</h>
     </coordinates>
@@ -244,7 +253,7 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
     <id>UMLClass</id>
     <coordinates>
       <x>1780</x>
-      <y>690</y>
+      <y>730</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
@@ -257,7 +266,7 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
     <id>Relation</id>
     <coordinates>
       <x>1590</x>
-      <y>770</y>
+      <y>810</y>
       <w>320</w>
       <h>110</h>
     </coordinates>
@@ -268,7 +277,7 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
     <id>UMLClass</id>
     <coordinates>
       <x>320</x>
-      <y>690</y>
+      <y>730</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
@@ -280,8 +289,8 @@ searchIngredients(searchText:String, limit:int):Ingredient[]
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>390</x>
-      <y>1040</y>
+      <x>400</x>
+      <y>1180</y>
       <w>140</w>
       <h>70</h>
     </coordinates>
@@ -292,19 +301,19 @@ create new meal</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>1040</y>
-      <w>180</w>
-      <h>60</h>
+      <x>530</x>
+      <y>1190</y>
+      <w>170</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;40.0;160.0;10.0</additional_attributes>
+    <additional_attributes>10.0;30.0;150.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLNote</id>
     <coordinates>
       <x>410</x>
-      <y>1120</y>
+      <y>1270</y>
       <w>140</w>
       <h>70</h>
     </coordinates>
@@ -316,7 +325,7 @@ get all meals</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>540</x>
-      <y>1070</y>
+      <y>1220</y>
       <w>160</w>
       <h>90</h>
     </coordinates>
@@ -327,7 +336,7 @@ get all meals</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>410</x>
-      <y>580</y>
+      <y>620</y>
       <w>100</w>
       <h>130</h>
     </coordinates>
@@ -338,7 +347,7 @@ get all meals</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>80</x>
-      <y>690</y>
+      <y>730</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
@@ -351,7 +360,7 @@ get all meals</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>110</x>
-      <y>580</y>
+      <y>620</y>
       <w>90</w>
       <h>130</h>
     </coordinates>
@@ -362,19 +371,20 @@ get all meals</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>2080</x>
-      <y>690</y>
+      <y>730</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>IngredientDialog
---</panel_attributes>
+--
+-update()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>1880</x>
-      <y>770</y>
+      <y>810</y>
       <w>320</w>
       <h>110</h>
     </coordinates>
@@ -385,7 +395,7 @@ get all meals</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1270</x>
-      <y>770</y>
+      <y>810</y>
       <w>30</w>
       <h>110</h>
     </coordinates>
@@ -396,7 +406,7 @@ get all meals</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>170</x>
-      <y>630</y>
+      <y>670</y>
       <w>270</w>
       <h>30</h>
     </coordinates>
@@ -407,7 +417,7 @@ get all meals</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>170</x>
-      <y>770</y>
+      <y>810</y>
       <w>270</w>
       <h>110</h>
     </coordinates>
@@ -418,7 +428,7 @@ get all meals</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>410</x>
-      <y>770</y>
+      <y>810</y>
       <w>410</w>
       <h>110</h>
     </coordinates>
@@ -428,53 +438,26 @@ get all meals</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>350</x>
-      <y>870</y>
+      <x>390</x>
+      <y>1060</y>
       <w>180</w>
-      <h>130</h>
+      <h>100</h>
     </coordinates>
-    <panel_attributes>if id == 0
-dailyMeal
-
-if id == -2
+    <panel_attributes>if id == WEEK_MEALS
 weekIntake
-if id == -3
+if id == TODAY_MEALS
 todayIntake</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>930</y>
-      <w>180</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;160.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>2380</x>
-      <y>690</y>
-      <w>200</w>
+      <x>560</x>
+      <y>1110</y>
+      <w>140</w>
       <h>90</h>
     </coordinates>
-    <panel_attributes>IngredientUpdateDialog
---
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>2170</x>
-      <y>770</y>
-      <w>320</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;90.0;300.0;90.0;300.0;10.0</additional_attributes>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;70.0</additional_attributes>
   </element>
 </diagram>

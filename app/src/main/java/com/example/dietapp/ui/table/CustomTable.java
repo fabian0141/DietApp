@@ -15,29 +15,15 @@ import java.text.DecimalFormat;
 
 public abstract class CustomTable extends TableLayout {
 
-    protected Controller con;
     private DecimalFormat nutriFormat = new DecimalFormat("#.##");
-    protected CustomTableRow[] nutrientRows = new CustomTableRow[20];
 
     public CustomTable(Context context) {
         super(context);
-        initView(context);
-    }
-
-    public abstract void addIngredient(Ingredient ing, float factor);
-
-    protected void initView(Context context) {
         setBackgroundColor(Color.rgb(60, 65, 70));
-        getData();
-    }
-    private void getData() {
-        con = Controller.getInstance(getContext());
     }
 
-    protected void addNutrients(Ingredient list, Ingredient added, float factor) {
-        for (int i = 0; i < list.nutrients.length; i++) {
-            list.nutrients[i] += added.nutrients[i] * added.amount / 100 * factor;
-        }
+    public void update() {
+        removeAllViews();
     }
 
     protected void createNutrientTable(Context context, String[] titleRow) {
@@ -49,13 +35,6 @@ public abstract class CustomTable extends TableLayout {
 
         addSubtitleRow(context, "   Minerals");
         addNutrientRows(context, NutriAttribs.minerals, nutriIndex);
-    }
-
-    private int addNutrientRows(Context context, NutriAttribs[] attribs, int nutriIndex) {
-        for (int i = 0; i < attribs.length; i++) {
-            addNutrientRow(context, attribs[i], nutriIndex++);
-        }
-        return nutriIndex;
     }
 
     protected void addTitleRow(Context context, String[] titles) {
@@ -88,5 +67,12 @@ public abstract class CustomTable extends TableLayout {
     protected String combineUnit(float nutrient, NutriAttribs attrb) {
 
         return nutriFormat.format(nutrient) + " " + attrb.unitName;
+    }
+
+    private int addNutrientRows(Context context, NutriAttribs[] attribs, int nutriIndex) {
+        for (int i = 0; i < attribs.length; i++) {
+            addNutrientRow(context, attribs[i], nutriIndex++);
+        }
+        return nutriIndex;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -69,9 +70,10 @@ public class CustomTableRow extends TableRow {
         tv.setBackgroundColor(color);
         tv.setPadding(15,padding,15,padding);
 
-        LayoutParams lp = new LayoutParams(0, LayoutParams.WRAP_CONTENT);
+        LayoutParams lp = new LayoutParams(0, LayoutParams.MATCH_PARENT);
         lp.weight = weight;
         lp.setMargins(marginLeft,5,marginRight,5);
+        tv.setGravity(Gravity.CENTER_VERTICAL);
         addView(tv, lp);
         if (updatable)
             valueFields.add(tv);

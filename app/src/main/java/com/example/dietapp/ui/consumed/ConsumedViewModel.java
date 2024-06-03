@@ -1,14 +1,14 @@
-package com.example.dietapp.ui.daily;
+package com.example.dietapp.ui.consumed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DailyViewModel extends ViewModel {
+public class ConsumedViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public DailyViewModel() {
+    public ConsumedViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
     }

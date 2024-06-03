@@ -16,7 +16,7 @@
             android:name=".ui.meals.Meal"
             android:exported="false" />
         <activity
-            android:name=".ui.meals.AllMeals"
+            android:name=".ui.meals.ConsumedMeal"
             android:exported="false" />
         <activity
             android:name=".ui.meals.CreateMeal"

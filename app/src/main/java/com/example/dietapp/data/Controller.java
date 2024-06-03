@@ -6,29 +6,43 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.dietapp.R;
+import com.example.dietapp.ui.meals.Meal;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 public class Controller {
-    SqlData db;
-    Settings set;
 
-    Persistent data;
+    public final static int TODAY_MEALS = -2;
+    public final static int WEEK_MEALS = -3;
+    public final static int TEMP_MEAL = -4;
+
+    private SqlData db;
+    private Settings set;
     private static Controller INSTANCE;
+
+    private MealData todaysCombinedMeal;
+    private MealData weeksCombinedMeal;
+    private MealData tempMeal;
+    private ArrayList<MealData> todaysMeals;
+
 
     private Controller(Context context) {
         String dbPath = context.getApplicationInfo().dataDir + "/food.db";
         checkForDatabase(context, dbPath);
         set = new Settings(context);
-        db = new SqlData(dbPath, this);
-        data = new Persistent(db.getDailyMeal(), db.getWeekIntake());
-        data.init(this);
+        db = new SqlData(dbPath);
+        int newDBVersion = db.checkDBVersion(set.getInteger(SettingsNames.DB_VERSION));
+        if (newDBVersion > 0) {
+            set.setInteger(SettingsNames.DB_VERSION, 1);
+        }
+        init();
     }
 
     public static Controller getInstance(Context context) {
@@ -36,6 +50,15 @@ public class Controller {
             INSTANCE = new Controller(context);
         }
         return INSTANCE;
+    }
+
+    private void init() {
+        db.removeOldDailyIntakes();
+        db.removeUnusedDeprecatedMeals();
+
+        todaysCombinedMeal = db.getTodaysCombinedMeal();
+        weeksCombinedMeal = db.getLastWeeksCombinedMeal();
+        todaysMeals = db.getTodaysMeals();
     }
 
     public Ingredient[] searchIngredients(String searchText, int limit) {
@@ -61,70 +84,51 @@ public class Controller {
             }
         }
     }
-    public int getSettingsInteger(SettingsNames name) {
-        return set.getInteger(name);
-    }
-    public void setSettingsInteger(SettingsNames name, int value) {
-        set.setInteger(name, value);
-    }
-    public MealData getDailyMeal() {
-        return data.getDailyMeal();
-    }
-    public Ingredient getDailyIntake() {
-        return data.getDailyIntake();
+
+    public void addTodayIntake(MealData meal, float portion) {
+        db.addTodayIntake(meal, portion);
+        todaysCombinedMeal = db.getTodaysCombinedMeal();
+        todaysMeals = db.getTodaysMeals();
     }
 
-    public void applyDailyMeal(MealData dailyMeal) {
-        data.applyDailyMeal(dailyMeal);
-        db.applyDailyMeal(dailyMeal);
+    public void removeTodayIntake(int consumedID) {
+        db.removeTodayIntake(consumedID);
+        todaysCombinedMeal = db.getTodaysCombinedMeal();
+        todaysMeals = db.getTodaysMeals();
     }
-    public void addTodayIntake(List<Ingredient> ings, float portion) {
-        data.addTodayIntake(ings, portion);
-        db.addTodayIntake(ings, portion);
-    }
+
     public MealData getMeal(int mealID) {
-        return db.getMeal(mealID);
+        switch (mealID) {
+            case TODAY_MEALS:
+                return todaysCombinedMeal;
+            case WEEK_MEALS:
+                return weeksCombinedMeal;
+            case TEMP_MEAL:
+                return tempMeal;
+            default:
+                return db.getMeal(mealID);
+        }
     }
 
-    public void saveMeal(MealData mealData) {
-        db.saveMeal(mealData);
+    public int saveMeal(MealData mealData, boolean isTemp) {
+        if (isTemp) {
+            tempMeal = mealData;
+            return -1;
+        }
+        return db.saveMeal(mealData);
     }
 
-    public MealData[] getMealPreviews(String search) {
-        return db.getMealPreviews(search);
-    }
     public void deleteMeal(int id) {
         db.deleteMeal(id);
     }
 
-    public Ingredient getTodayIntake() {
-        return data.getTodayIntake();
+    public ArrayList<MealData> getMeals(String filter, int offsetMeals) {
+        return db.getMeals(filter, offsetMeals);
     }
 
-    public Ingredient getPreviousIntake() {
-        return data.getPreviousIntake();
+    public ArrayList<MealData> getConsumedMeals() {
+        return todaysMeals;
     }
 
-    public ArrayList<MealData> getRecentMealPreview() {
-        ArrayList<Integer> mealIDs = new ArrayList<>();
-        SettingsNames[] names = new SettingsNames[] {SettingsNames.RECENT_MEAL_1,
-                SettingsNames.RECENT_MEAL_2, SettingsNames.RECENT_MEAL_3};
-        for (int i = 0; i < 3; i++) {
-            int mealID = getSettingsInteger(names[i]);
-            if (mealID != -1) {
-                mealIDs.add(mealID);
-            }
-        }
-        return db.getMealPreview(mealIDs);
-    }
 
-    public void addRecentMeal(int mealID) {
-        set.addRecentMeal(mealID);
-    }
 }
-
-// TODO: better database
-// fix daily intake, adding to daily intake, persistent data
-// add small meal functions, edit, amount
-// update create meal ingredients
-// recent meals

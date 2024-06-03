@@ -1,4 +1,4 @@
-package com.example.dietapp.ui.meals;
+package com.example.dietapp.ui.consumed;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,13 +17,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.MealData;
-import com.example.dietapp.databinding.FragmentMealsBinding;
+import com.example.dietapp.databinding.FragmentConsumedBinding;
+import com.example.dietapp.ui.meals.ConsumedMeal;
+import com.example.dietapp.ui.meals.Meal;
+import com.example.dietapp.ui.meals.MealPreview;
 
 import java.util.ArrayList;
 
-public class MealsFragment extends Fragment {
+public class ConsumedFragment extends Fragment {
 
-    private FragmentMealsBinding binding;
+    private FragmentConsumedBinding binding;
     private Controller con;
     private LinearLayout mealList;
 
@@ -32,25 +35,24 @@ public class MealsFragment extends Fragment {
     private int queriedMealsAmount = 0;
     private int offsetMeals = 0;
 
-    public MealsFragment() {
+    public ConsumedFragment() {
     }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        MealsViewModel dailyViewModel =
-                new ViewModelProvider(this).get(MealsViewModel.class);
+        ConsumedViewModel consumedViewModel =
+                new ViewModelProvider(this).get(ConsumedViewModel.class);
 
-        binding = FragmentMealsBinding.inflate(inflater, container, false);
+        binding = FragmentConsumedBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         con = Controller.getInstance(getContext());
 
-        addSearch();
-        mealList = binding.mealList;
+        mealList = binding.todaysMeals;
         return root;
     }
 
     private void showMealPreviews() {
         mealList.removeAllViews();
-        ArrayList<MealData> meals = con.getMeals(searchQuery, offsetMeals);
+        ArrayList<MealData> meals = con.getConsumedMeals();
         if (meals.size() == 0)
             return;
 
@@ -62,13 +64,18 @@ public class MealsFragment extends Fragment {
         int i = 0;
         while (true) {
             final int mealID = meals.get(i).mealID;
-            MealPreview nutriRow = new MealPreview(getContext(), meals.get(i).title);
+            final float portion = meals.get(i).portion;
+            final int consumedID = meals.get(i).consumedID;
+
+            ConsumedPreview nutriRow = new ConsumedPreview(getContext(), meals.get(i).title, meals.get(i).portion);
             nutriRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent meal = new Intent(v.getContext(), Meal.class);
+                    Intent meal = new Intent(v.getContext(), ConsumedMeal.class);
                     meal.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     meal.putExtra("mealID", mealID);
+                    meal.putExtra("portion", portion);
+                    meal.putExtra("consumedID", consumedID);
                     v.getContext().startActivity(meal);
                 }
             });
@@ -84,40 +91,6 @@ public class MealsFragment extends Fragment {
             seperatorParams.setMargins(seperatorPadding,0,seperatorPadding,0);
             mealList.addView(seperator, seperatorParams);
         }
-
-        Button moreMeals = binding.showMoreMealsB;
-        if (queriedMealsAmount % 20 == 0) {
-            moreMeals.setVisibility(View.VISIBLE);
-            moreMeals.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    offsetMeals = queriedMealsAmount;
-                    showMealPreviews();
-                }
-            });
-        } else {
-            moreMeals.setVisibility(View.GONE);
-        }
-    }
-
-    private void addSearch() {
-        SearchView search = binding.searchView;
-        search.setQuery(searchQuery, false);
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchQuery = newText;
-                offsetMeals = 0;
-                showMealPreviews();
-                return true;
-            }
-        });
     }
 
     @Override

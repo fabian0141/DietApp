@@ -1,18 +1,7 @@
 package com.example.dietapp.ui.meals;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,14 +10,19 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.dietapp.R;
 import com.example.dietapp.data.Controller;
 import com.example.dietapp.data.MealData;
-import com.example.dietapp.ui.table.CustomTable;
 import com.example.dietapp.ui.table.IngredientTable;
 import com.example.dietapp.ui.table.MealNutrientTable;
 
-public class Meal extends AppCompatActivity {
+public class ConsumedMeal extends AppCompatActivity {
 
     private Controller con;
     IngredientTable ingredientTable;
@@ -36,44 +30,25 @@ public class Meal extends AppCompatActivity {
 
     int totalAmount = 0;
     int mealID = -1;
-    TextView totalAmountTV;
-    EditText consumedAmount;
+    int consumedID = -1;
+    float portion = 0;
+    TextView consumedAmount;
     MealData mealData;
     MealData dayMeal;
-    ActivityResultLauncher<Intent> launcher;
-    public Meal() {
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                switch (result.getResultCode()) {
-                    case RESULT_OK:
-                        mealID = result.getData().getIntExtra("newMealID", -1);
-                        loadMeal();
-                        break;
-                    case RESULT_CANCELED:
-                        loadMeal();
-                        break;
-                    case -2:
-                        finish();
-                        break;
-                }
-            }
-        });
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meal);
+        setContentView(R.layout.activity_consumed_meal);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        totalAmountTV = findViewById(R.id.totalAmount);
         consumedAmount = findViewById(R.id.consumedAmount);
 
         LinearLayout mealList = findViewById(R.id.mealList);
         ingredientTable = new IngredientTable(getBaseContext(), null);
         mealList.addView(ingredientTable, 7);
-        nutrientTable = new MealNutrientTable(getBaseContext(), false);
+        nutrientTable = new MealNutrientTable(getBaseContext(), true);
         mealList.addView(nutrientTable, 10);
 
         loadData();
@@ -94,6 +69,8 @@ public class Meal extends AppCompatActivity {
     private void loadData() {
         Intent intent = getIntent();
         mealID = intent.getIntExtra("mealID", -1);
+        portion = intent.getFloatExtra("portion", 0);
+        consumedID = intent.getIntExtra("consumedID", -1);
 
         con = Controller.getInstance(getBaseContext());
         if (mealID == -1) {
@@ -115,11 +92,9 @@ public class Meal extends AppCompatActivity {
             totalAmount += mealData.ingredients.get(i).amount;
         }
 
-        totalAmountTV.setText("" + totalAmount);
-
         ingredientTable.update(mealData);
 
-        updatePortion(totalAmount / 2);
+        updatePortion((int)(totalAmount * portion));
     }
 
     private void updatePortion(int portion) {
@@ -129,7 +104,7 @@ public class Meal extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.meal_menu, menu);
+        getMenuInflater().inflate(R.menu.consumed_meal_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
     @Override
@@ -137,15 +112,11 @@ public class Meal extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
-        } else if (item.getItemId() == R.id.addMeal) {
-            con.addTodayIntake(mealData, Float.parseFloat(consumedAmount.getText().toString()) / totalAmount);
+        } else if (item.getItemId() == R.id.removeMeal) {
+            con.removeTodayIntake(consumedID);
             finish();
             return true;
         } else if (item.getItemId() == R.id.mealEdit) {
-            Intent editMeal = new Intent(this, CreateMeal.class);
-            editMeal.putExtra("mealID", mealData.mealID);
-            launcher.launch(editMeal);
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
